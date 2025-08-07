@@ -10,6 +10,7 @@ namespace API.Controllers
 
     public class UsersController(DataContext context) : BaseApiController
     {
+        [AllowAnonymous] //only for now
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<AppUser>>> GetUsers()
         {
