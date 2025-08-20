@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -19,7 +19,7 @@ import { AccountService } from '../../../core/services/account-service';
   templateUrl: './member-detailed.html',
   styleUrl: './member-detailed.css',
 })
-export class MemberDetailed {
+export class MemberDetailed implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private accountService = inject(AccountService);

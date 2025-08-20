@@ -41,7 +41,7 @@ export class MemberService {
 
   setMainPhoto(photo: Photo) {
     return this.http.put(
-      this.baseUrl + 'memebrs/set-main-photo/' + photo.id,
+      this.baseUrl + 'members/set-main-photo/' + photo.id,
       {}
     );
   }
