@@ -33,6 +33,13 @@ export class MemberDetailed implements OnInit {
     );
   });
 
+  // member-detailed.component.ts
+  constructor(router: Router) {}
+
+  get isPhotosRoute(): boolean {
+    return this.router.url.includes('/photos');
+  }
+
   ngOnInit(): void {
     this.title.set(this.route.firstChild?.snapshot?.title);
 

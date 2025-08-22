@@ -1,5 +1,6 @@
 using System;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,21 +13,44 @@ public class MemberRepository(DataContext context) : IMemberRepository
         return await context.Members.FindAsync(id);
     }
 
-    public async Task<IReadOnlyList<Member>> GetMembersAsync()
-    {
-        return await context.Members.ToListAsync();
-    }
-
     public async Task<Member?> GetMemberForUpdate(string id)
     {
         return await context.Members
-            .Include(x => x.User).Include(x => x.Photos)
+            .Include(x => x.User)
+            .Include(x => x.Photos)
             .SingleOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<PaginatedResult<Member>> GetMembersAsync(MemberParams memberParams)
+    {
+        var query = context.Members.AsQueryable();
+        query = query.Where(x => x.Id != memberParams.CurrentMemberId);
+
+        if (memberParams.Gender != null)
+        {
+            query = query.Where(x => x.Gender == memberParams.Gender);
+        }
+
+        var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-memberParams.MaxAge - 1));
+        var MaxDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-memberParams.MinAge));
+
+        query = query.Where(x => x.DateOfBirth >= minDob && x.DateOfBirth <= MaxDob);
+
+        query = memberParams.OrderBy switch
+        {
+            "created" => query.OrderByDescending(x => x.Created),
+            _ => query.OrderByDescending(x => x.LastActive)
+        };
+
+        return await PaginationHelper.CreateAsync(query, memberParams.PageNumber, memberParams.PageSize);
     }
 
     public async Task<IReadOnlyList<Photo>> GetPhotosForMemberAsync(string memberId)
     {
-        return await context.Members.Where(x => x.Id == memberId).SelectMany(x => x.Photos).ToListAsync();
+        return await context.Members
+        .Where(x => x.Id == memberId)
+        .SelectMany(x => x.Photos)
+        .ToListAsync();
     }
 
     public async Task<bool> SaveAllAsync()

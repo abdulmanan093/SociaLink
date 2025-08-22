@@ -19,8 +19,9 @@ public static class ApplicationServiceExtensions
 
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
-        services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<IPhotoService, PhotoService>();
+        services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<LogUserActivity>();
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
         return services;

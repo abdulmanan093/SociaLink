@@ -78,4 +78,11 @@ export class MemberPhotos implements OnInit {
         } as Member)
     );
   }
+
+  // this is my extra code...
+  ngOnDestroy(): void {
+    if (this.memberService.editMode()) {
+      this.memberService.editMode.set(false);
+    }
+  }
 }
