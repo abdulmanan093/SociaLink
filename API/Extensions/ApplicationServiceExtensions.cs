@@ -21,6 +21,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPhotoService, PhotoService>();
         services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<ILikesRepository, LikesRepository>();
         services.AddScoped<LogUserActivity>();
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
 
