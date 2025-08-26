@@ -33,7 +33,7 @@ export class Register {
   constructor() {
     this.credentialsForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      userName: ['', Validators.required],
+      displayName: ['', Validators.required],
       password: [
         '',
         [Validators.required, Validators.minLength(4), Validators.maxLength(8)],

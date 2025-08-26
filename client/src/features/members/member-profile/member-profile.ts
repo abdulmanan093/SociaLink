@@ -35,14 +35,14 @@ export class MemberProfile implements OnInit, OnDestroy {
   protected memberService = inject(MemberService);
   private toast = inject(ToastService);
   protected editableMember: EditableMember = {
-    userName: '',
+    displayName: '',
     description: '',
     city: '',
     country: '',
   };
   ngOnInit(): void {
     this.editableMember = {
-      userName: this.memberService.member()?.userName || '',
+      displayName: this.memberService.member()?.displayName || '',
       description: this.memberService.member()?.description || '',
       city: this.memberService.member()?.city || '',
       country: this.memberService.member()?.country || '',
@@ -57,8 +57,11 @@ export class MemberProfile implements OnInit, OnDestroy {
     this.memberService.updateMember(this.editableMember).subscribe({
       next: () => {
         const currentUser = this.accountService.currentUser();
-        if (currentUser && updateMember.userName !== currentUser?.userName) {
-          currentUser.userName = updateMember.userName;
+        if (
+          currentUser &&
+          updateMember.displayName !== currentUser?.displayName
+        ) {
+          currentUser.displayName = updateMember.displayName;
           this.accountService.setCurrentUser(currentUser);
         }
         this.toast.success('Profile update successfully');

@@ -2,7 +2,7 @@ export type Member = {
   id: string;
   dateOfBirth: string;
   imageUrl?: string;
-  userName: string;
+  displayName: string;
   created: string;
   lastActive: string;
   gender: string;
@@ -19,7 +19,7 @@ export type Photo = {
 };
 
 export type EditableMember = {
-  userName: string;
+  displayName: string;
   description?: string;
   city: string;
   country: string;

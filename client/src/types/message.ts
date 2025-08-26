@@ -1,10 +1,10 @@
 export type Message = {
   id: string;
   senderId: string;
-  senderUserName: string;
+  senderDisplayName: string;
   senderImageUrl: string;
   recipientId: string;
-  recipientUserName: string;
+  recipientDisplayName: string;
   recipientImageUrl: string;
   content: string;
   dateRead?: string;

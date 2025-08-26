@@ -34,6 +34,12 @@
       </a>
       <a routerLink="/lists" routerLinkActive="text-accent">Lists</a>
       <a routerLink="/messages" routerLinkActive="text-accent">Messages</a>
+      <a
+        *appHasRole="['Admin', 'Moderator']"
+        routerLink="/admin"
+        routerLinkActive="text-accent"
+        >Admin</a
+      >
       <a routerLink="/errors" routerLinkActive="text-accent">Errors</a>
       }
     </nav>
@@ -87,7 +93,7 @@
             alt="user avatar"
             class="w-10 h-10 rounded-full"
           />
-          <span>{{ user.userName }}</span>
+          <span>{{ user.displayName }}</span>
         </div>
         <ul
           tabindex="0"

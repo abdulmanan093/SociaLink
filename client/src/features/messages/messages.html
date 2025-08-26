@@ -56,7 +56,11 @@
               />
             </div>
             <div>
-              {{ isInbox ? message.senderUserName : message.recipientUserName }}
+              {{
+                isInbox
+                  ? message.senderDisplayName
+                  : message.recipientDisplayName
+              }}
             </div>
           </div>
         </td>

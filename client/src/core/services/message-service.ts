@@ -18,7 +18,7 @@ export class MessageService {
     params = params.append('pageSize', pageSize);
     params = params.append('container', container);
 
-    return this.http.get<PaginatedResult<Message>>(this.baseUrl + 'message', {
+    return this.http.get<PaginatedResult<Message>>(this.baseUrl + 'messages', {
       params,
     });
   }

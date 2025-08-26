@@ -9,7 +9,7 @@
     <span>{{ member.lastActive | timeAgo }}</span>
   </div>
   <h3 class="text-lg font-semibold text-primary">
-    About {{ member.userName }}
+    About {{ member.displayName }}
   </h3>
   @if (memberService.editMode()) {
   <form
@@ -21,8 +21,8 @@
       <span>User Name</span>
       <input
         class="input w-full"
-        name="userName"
-        [(ngModel)]="editableMember.userName"
+        name="displayName"
+        [(ngModel)]="editableMember.displayName"
         placeholder="User name"
       />
     </label>

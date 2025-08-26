@@ -49,8 +49,9 @@ public class MessageRepository(DataContext context) : IMessageRepository
             .SetProperty(x => x.DateRead, DateTime.UtcNow));
 
         return await context.Messages
-            .Where(x => (x.RecipientId == currentMemberId && x.SenderId == recipientId) || (x.SenderId == currentMemberId & x.RecipientId == recipientId))
-            .OrderBy(x => x.MessageSent).Select(MessageExtensions.ToDtoProjection())
+            .Where(x => (x.RecipientId == currentMemberId && x.SenderId == recipientId) || (x.SenderId == currentMemberId && x.RecipientId == recipientId))
+            .OrderBy(x => x.MessageSent)
+            .Select(MessageExtensions.ToDtoProjection())
             .ToListAsync();
 
     }

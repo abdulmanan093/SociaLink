@@ -45,12 +45,12 @@ namespace API.Controllers
 
             if (member == null) return BadRequest("Could not get member");
 
-            member.UserName = memberUpdateDto.UserName ?? member.UserName;
+            member.DisplayName = memberUpdateDto.DisplayName ?? member.DisplayName;
             member.Description = memberUpdateDto.Description ?? member.Description;
             member.City = memberUpdateDto.City ?? member.City;
             member.Country = memberUpdateDto.Country ?? member.Country;
 
-            member.User.UserName = memberUpdateDto.UserName ?? member.User.UserName;
+            member.User.DisplayName = memberUpdateDto.DisplayName ?? member.User.DisplayName;
 
             memberRepository.Update(member); // optional
 
