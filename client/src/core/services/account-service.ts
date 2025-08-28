@@ -71,7 +71,7 @@ export class AccountService {
             this.logout();
           },
         });
-    }, 5 * 60 * 1000);
+    }, 14 * 24 * 60 * 60 * 1000); // 14 days
   }
 
   setCurrentUser(user: User) {
@@ -86,10 +86,16 @@ export class AccountService {
   }
 
   logout() {
-    localStorage.removeItem('filters');
-    this.likesService.clearLikeIds();
-    this.currentUser.set(null);
-    this.presenceService.stopHubConnection();
+    this.http
+      .post(this.baseUrl + 'account/logout', {}, { withCredentials: true })
+      .subscribe({
+        next: () => {
+          localStorage.removeItem('filters');
+          this.likesService.clearLikeIds();
+          this.currentUser.set(null);
+          this.presenceService.stopHubConnection();
+        },
+      });
   }
 
   private getRolesFromToken(user: User): string[] {

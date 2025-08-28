@@ -23,6 +23,7 @@ export class Nav {
     localStorage.getItem('theme') || 'light'
   );
   protected themes = themes;
+  protected loading = signal(false);
 
   ngOnInit(): void {
     document.documentElement.setAttribute('data-theme', this.selectedTheme());
@@ -36,14 +37,24 @@ export class Nav {
     if (elem) elem.blur();
   }
 
+  handleSelectUserItem() {
+    const elem = document.activeElement as HTMLDivElement;
+    if (elem) elem.blur();
+  }
+
   login() {
+    this.loading.set(true);
     this.accountService.login(this.creds).subscribe({
       next: () => {
         this.router.navigateByUrl('/members');
         this.toast.success('Logged in successfully');
         this.creds = {};
       },
-      error: (error) => this.toast.error(error.error),
+      error: (error) => {
+        this.toast.error(error.error);
+        setTimeout(() => this.loading.set(false), 500);
+      },
+      complete: () => this.loading.set(false),
     });
   }
 

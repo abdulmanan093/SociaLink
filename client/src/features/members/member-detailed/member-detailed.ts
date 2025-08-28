@@ -13,6 +13,7 @@ import { AgePipe } from '../../../core/pipes/age-pipe';
 import { MemberService } from '../../../core/services/member-service';
 import { AccountService } from '../../../core/services/account-service';
 import { PresenceService } from '../../../core/services/presence-service';
+import { LikesService } from '../../../core/services/likes-service';
 
 @Component({
   selector: 'app-member-detailed',
@@ -26,17 +27,22 @@ export class MemberDetailed implements OnInit {
   private accountService = inject(AccountService);
   protected memberService = inject(MemberService);
   protected presenceService = inject(PresenceService);
+  protected likesService = inject(LikesService);
   protected title = signal<string | undefined>('profile');
+  private routeId = signal<string | null>(null);
 
   protected isCurrentUser = computed(() => {
-    return (
-      this.accountService.currentUser()?.id ===
-      this.route.snapshot.paramMap.get('id')
-    );
+    return this.accountService.currentUser()?.id === this.routeId();
   });
+  protected hasLiked = computed(() =>
+    this.likesService.likeIds().includes(this.routeId()!)
+  );
 
-  // member-detailed.component.ts
-  constructor(router: Router) {}
+  constructor() {
+    this.route.paramMap.subscribe((params) => {
+      this.routeId.set(params.get('id'));
+    });
+  }
 
   get isPhotosRoute(): boolean {
     return this.router.url.includes('/photos');

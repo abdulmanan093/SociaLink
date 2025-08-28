@@ -58,8 +58,10 @@ public class MessageRepository(DataContext context) : IMessageRepository
 
         query = messageParams.Container switch
         {
-            "Outbox" => query.Where(x => x.SenderId == messageParams.MemberId),
-            _ => query.Where(x => x.RecipientId == messageParams.MemberId)
+            "Outbox" => query.Where(x => x.SenderId == messageParams.MemberId
+                && x.SenderDeleted == false),
+            _ => query.Where(x => x.RecipientId == messageParams.MemberId
+                && x.RecipientDeleted == false)
         };
         var messageQuery = query.Select(MessageExtensions.ToDtoProjection());
 
@@ -74,7 +76,10 @@ public class MessageRepository(DataContext context) : IMessageRepository
             .SetProperty(x => x.DateRead, DateTime.UtcNow));
 
         return await context.Messages
-            .Where(x => (x.RecipientId == currentMemberId && x.SenderId == recipientId) || (x.SenderId == currentMemberId && x.RecipientId == recipientId))
+            .Where(x => (x.RecipientId == currentMemberId && x.RecipientDeleted == false
+                && x.SenderId == recipientId)
+                || (x.SenderId == currentMemberId
+                && x.SenderDeleted == false && x.RecipientId == recipientId))
             .OrderBy(x => x.MessageSent)
             .Select(MessageExtensions.ToDtoProjection())
             .ToListAsync();
@@ -88,8 +93,4 @@ public class MessageRepository(DataContext context) : IMessageRepository
             .ExecuteDeleteAsync();
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
 }
