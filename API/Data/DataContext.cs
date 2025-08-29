@@ -50,7 +50,7 @@ public class DataContext(DbContextOptions options) : IdentityDbContext<AppUser>(
         .HasOne(s => s.TargetMember)
         .WithMany(t => t.LikedByMembers)
         .HasForeignKey(s => s.TargetMemberId)
-        .OnDelete(DeleteBehavior.Cascade);
+        .OnDelete(DeleteBehavior.NoAction);
 
         var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
             v => v.ToUniversalTime(),

@@ -7,5 +7,7 @@
       "database": "${workspaceFolder:SociaLink}/API/socialink.db",
       "name": "socialink"
     }
-  ]
+  ],
+  "appService.defaultWebAppToDeploy": "/subscriptions/ce40f016-462d-4330-b319-ca7d5a8123c5/resourceGroups/socialink-app_group/providers/Microsoft.Web/sites/socialink-app",
+  "appService.deploySubpath": "API\\bin\\Publish"
 }

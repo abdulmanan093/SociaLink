@@ -10,7 +10,7 @@ import {
   HubConnectionBuilder,
   HubConnectionState,
 } from '@microsoft/signalr';
-
+import * as signalR from '@microsoft/signalr';
 @Injectable({
   providedIn: 'root',
 })
@@ -32,6 +32,7 @@ export class MessageService {
         accessTokenFactory: () => currentUser.token,
       })
       .withAutomaticReconnect()
+      .configureLogging(signalR.LogLevel.None)
       .build();
 
     this.hubConnection.start().catch((error) => console.log(error));

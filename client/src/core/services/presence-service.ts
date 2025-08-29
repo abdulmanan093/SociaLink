@@ -8,6 +8,7 @@ import {
 } from '@microsoft/signalr';
 import { User } from '../../types/user';
 import { Message } from '../../types/message';
+import * as signalR from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class PresenceService {
         accessTokenFactory: () => user.token,
       })
       .withAutomaticReconnect()
+      .configureLogging(signalR.LogLevel.None)
       .build();
 
     this.hubConnection.start().catch((error) => console.log(error));
